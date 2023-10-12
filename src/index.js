@@ -1,1 +1,1 @@
-console.log('Work', 'ss')
+console.log('Working')
