@@ -12,7 +12,7 @@ const filename = ext => isDev ? `bundle.${ext}` : `bundle.[hash].${ext}`
 module.exports = {
     context: path.resolve(__dirname, 'src'),
     mode: 'development',
-    entry: './index.js',
+    entry: ['@babel/polyfill', './index.js'],
     output: {
         filename: filename('js'),
         path: path.resolve(__dirname, 'dist')
@@ -23,6 +23,11 @@ module.exports = {
         alias: {
             '@': path.resolve(__dirname, 'src') //пишем символ @, то сразу переходим в папку src вместо ../../../
         }
+    },
+    devtool: isDev ? 'source-map' : false,
+    devServer: { //убирает папку dist при npm run start
+      port: 3000,
+      hot: isDev
     },
     plugins: [
         new CleanWebpackPlugin(),
