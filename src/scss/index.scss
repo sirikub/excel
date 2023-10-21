@@ -1,6 +1,29 @@
-$red: red;
+@import "~normalize.css";
 
-body {
-    background: $red;
+@import "header";
+@import "toolbar";
+@import "formula";
+@import "table";
+@import "dashboard";
+
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: "Roboto", sans-serif; // если робото не загрузился, подгражем sans-serif
+    font-size: 12px;
+}
+
+.excel {
+    position: relative;
+    color: #888;
+    height: 100%;
+    max-width: 100%;
+    font-size: .8rem;
 }
 
