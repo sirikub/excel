@@ -1,7 +1,6 @@
 const path = require('path')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin') // для очистки папки dist
 const HTMLWebpackPlugin = require('html-webpack-plugin')
-const CopyPlugin = require('copy-webpack-plugin')
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin') // выносим css из js файла
 
@@ -9,23 +8,6 @@ const isProd = process.env.NODE_ENV === 'production'
 const isDev = !isProd
 
 const filename = ext => isDev ? `bundle.${ext}` : `bundle.[hash].${ext}`
-
-const jsLoaders = () => {
-  const loaders = [
-    {
-      loader: 'babel-loader',
-      options: {
-        presets: ['@babel/preset-env'],
-        fix: true
-
-      }
-    }
-  ]
-  if (isDev) {
-    loaders.push('eslint-loader')
-  }
-  return loaders
-}
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
@@ -37,11 +19,10 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js'],
-    // eslint-disable-next-line max-len
     // import '../../../../../core/component' теперь пишем просто import '@core/component'
     alias: {
-      // eslint-disable-next-line max-len
-      '@': path.resolve(__dirname, 'src') // пишем символ @, то сразу переходим в папку src вместо ../../../
+      '@': path.resolve(__dirname, 'src'), // пишем символ @, то сразу переходим в папку src вместо ../../../
+      '@core': path.resolve(__dirname, 'src/core')
     }
   },
   devtool: isDev ? 'source-map' : false,
@@ -58,12 +39,6 @@ module.exports = {
         collapseWhitespace: isProd
       }
     }),
-    // new CopyPlugin([
-    //     {
-    //         from: path.resolve(__dirname, 'src/favicon.ico'),
-    //         to: path.resolve(__dirname, 'dist')
-    //     }
-    // ]),
     new MiniCssExtractPlugin({
       filename: filename('css')
     })
